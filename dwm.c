@@ -218,7 +218,7 @@ static Atom getatomprop(Client *c, Atom prop);
 static pid_t getparentprocess(pid_t p);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
-static pid_t getstatusbarpid(void);
+static pid_t getstatusbarpid();
 static unsigned int getsystraywidth(void);
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
@@ -382,7 +382,7 @@ static size_t autostart_len;
 
 /* execute command from autostart array */
 static void
-autostart_exec(void)
+autostart_exec()
 {
 	const char *const *p;
 	struct sigaction sa;
@@ -1303,7 +1303,7 @@ getparentprocess(pid_t p)
 }
 
 pid_t
-getstatusbarpid(void)
+getstatusbarpid()
 {
 	char buf[32], *str = buf, *c;
 	FILE *fp;
@@ -3270,7 +3270,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext))) {
-		strcpy(stext, "dwm-"VERSION);
+		strcpy(stext, "dwm-titus:"VERSION);
 		statusw = TEXTW(stext) - lrpad + 2;
 	} else {
 		char *text, *s, ch;

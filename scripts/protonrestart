@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -e
 PROTONCORE=(pv-bwrap winecfg.exe pressure-vessel reaper explorer.exe rpcss.exe plugplay.exe services.exe svchost.exe winedevice.exe winedevice.exe wineserver Fallout76.exe)
 
 for PROG in "${PROTONCORE[@]}"; do
