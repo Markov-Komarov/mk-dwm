@@ -25,23 +25,24 @@ static const char selbordercolor[]        = "#F8F9FA";
 static const char normfgcolor[]           = "#F8F9F1";
 static const char selfgcolor[]            = "#FFFFFF";
 static const char *colors[][3]            = {
-  /*               fg         bg         border   */
-  [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-  [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+    /*              fg            bg            border         */
+	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+	[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 static const char *const autostart[] = {
-  "xset", "s", "off", NULL,
-  "xset", "s", "noblank", NULL,
-  "xset", "-dpms", NULL,
-  "dbus-update-activation-environment", "--systemd", "--all", NULL,
-  "/usr/bin/lxpolkit", NULL,
-  "set-xres", NULL,
-  "dunst", NULL,
-  "picom", "-b", "--config=/home/maarkov/.config/picom/picom.conf", NULL,
-  "feh-bgp", NULL,
-  "dwmblocks", NULL,
-	NULL /* terminate */
+    "xset", "s", "off", NULL,
+    "xset", "s", "noblank", NULL,
+    "xset", "-dpms", NULL,
+    "dbus-update-activation-environment", "--systemd", "--all", NULL,
+    "/usr/bin/lxpolkit", NULL,
+    "set-xres", NULL,
+    "dunst", NULL,
+    "picom", "-b", "--config=/home/maarkov/.config/picom/picom.conf", NULL,
+    "feh-bgp", NULL,
+    "dwmblocks", NULL,
+    "otd-daemon", NULL,
+    NULL /* terminate */
 };
 
 /* tagging */
@@ -56,24 +57,26 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ "kitty",   NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ "alacritty",   NULL,     NULL,       0,         0,          1,           0,        -1 },
-	{ "terminator",	 NULL,     NULL,       0,         0,          1,           0,        -1 },
-	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	{ "st",        NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "st-fl",     NULL,     NULL,           0,         1,          1,           0,        -1 },
+	{ "kitty",     NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "alacritty", NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "critty-fl", NULL,     NULL,           0,         1,          1,           0,        -1 },
+	{ "mpv",	   NULL,     NULL,           0,         0,          0,           0,        -1 },
+	{ NULL,        NULL,     "Event Tester", 0,         1,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
-static const float mfact     = 0.75; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.6; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-  /* symbol     arrange function */
-  { "[]=",      tile },    /* first entry is default */
-  { "><>",      NULL },    /* no layout function means floating behavior */
-  { "[M]",      monocle },
+	/* symbol     arrange function */
+	{ "",      tile },    /* first entry is default */
+	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "",      monocle },
 };
 
 /* key definitions */
@@ -88,7 +91,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define STATUSBAR "dwmblocks"
 /* commands */
-static const char *ftermcmd[] = { "st", "-c", "st-fl", "-g", "120x35", NULL };
+static const char *ftermcmd[] = { "alacritty", "--class=critty-fl", NULL };
 static const char *launchercmd[] = { "rofi", "-show", "drun", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
@@ -96,18 +99,18 @@ static Key keys[] = {
 	/* modifier                     key            function                argument */
 	{ MODKEY,                       XK_r,          spawn,                  {.v = launchercmd} }, // spawn rofi for launching other programs
 	{ MODKEY,                       XK_x,          spawn,                  {.v = termcmd } }, // spawn a terminal
-	{ MODKEY|ShiftMask,             XK_x,          spawn,                  {.v = ftermcmd} },
-	{ MODKEY,                       XK_b,          spawn,                  SHCMD ("xdg-open https://")}, // open default browser
+	{ MODKEY|ShiftMask,             XK_x,          spawn,                  {.v = ftermcmd } }, // spawn a floating terminal
+	{ MODKEY,                       XK_w,          spawn,                  SHCMD ("xdg-open https://")}, // open default browser
 	{ MODKEY,                       XK_p,          spawn,                  SHCMD ("full-shotgun")}, // capture full screen screenshot
-	{ MODKEY|ShiftMask,             XK_p,          spawn,                  SHCMD ("sel-shotgun")}, // open screenshot selection
+	{ MODKEY|ShiftMask,             XK_p,          spawn,                  SHCMD ("sel-shotgun")}, // open flameshot gui for screenshot selection
 	{ MODKEY|ControlMask,           XK_p,          spawn,                  SHCMD ("sel-clip-shotgun")}, // copy screenshot to clipboard
 	{ MODKEY,                       XK_e,          spawn,                  SHCMD ("pcmanfm")}, // open thunar file manager
-	{ MODKEY,                       XK_w,          spawn,                  SHCMD ("looking-glass-client -F")}, // start Looking glass
+	{ MODKEY,                       XK_b,          spawn,                  SHCMD ("feh-bgp")}, // change wallpaper
 	{ 0,                            0x1008ff02,    spawn,                  SHCMD ("xbacklight -inc 10")}, // increase backlight brightness
 	{ 0,                            0x1008ff03,    spawn,                  SHCMD ("xbacklight -dec 10")}, // decrease backlight brightness
 	{ 0,                            0x1008ff1b,    spawn,                  SHCMD ("xbacklight -inc 10")}, // increase backlight brightness
 	{ 0,                            0x1008ff8e,    spawn,                  SHCMD ("xbacklight -dec 10")}, // decrease backlight brightness
-	{ 0,                            0x1008ff11,    spawn,                  SHCMD ("sb-voldown")}, // decrease and unmute volume
+	{ 0,                            0x1008ff11,    spawn,                  SHCMD ("sb-voldown")}, // unmute volume
 	{ 0,                            0x1008ff12,    spawn,                  SHCMD ("sb-voltoggle")}, // toggle mute/unmute
 	{ 0,                            0x1008ff13,    spawn,                  SHCMD ("sb-volup")}, // unmute volume
 	{ MODKEY|ShiftMask,             XK_b,          togglebar,              {0} }, // toggle bar visibility
@@ -144,7 +147,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,          quit,                   {0} }, // exit dwm
 	{ MODKEY|ControlMask,           XK_q,          spawn,                  SHCMD("$HOME/.config/rofi/powermenu.sh")}, // exit dwm
 	{ MODKEY|ControlMask|ShiftMask, XK_r,          spawn,                  SHCMD("systemctl reboot")}, // reboot system
-	{ MODKEY|ControlMask|ShiftMask, XK_s,          spawn,                  SHCMD("systemctl suspend")}, // suspend system
+	{ MODKEY|ControlMask|ShiftMask, XK_p,          spawn,                  SHCMD("systemctl poweroff")}, // suspend system
 };
 
 /* button definitions */
@@ -153,12 +156,12 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
-    { ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
-    { ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
-    { ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
-    { ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	{ ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 2} },
+	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 1} },
+    { ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 2} },
+    { ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 3} },
+    { ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 4} },
+    { ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
