@@ -13,10 +13,10 @@ static const int systraypinningfailfirst      = 1;   /* 1: if pinning fails, dis
 static const int showsystray                  = 1;   /* 0 means no systray */
 static const int showbar                      = 1;   /* 0 means no bar */
 static const int topbar                       = 1;   /* 0 means bottom bar */
-#define ICONSIZE                              17     /* icon size */
-#define ICONSPACING                           5      /* space between icon and title */
+#define ICONSIZE                              18     /* icon size */
+#define ICONSPACING                           6      /* space between icon and title */
 #define SHOWWINICON                           1      /* 0 means no winicon */
-static const char *fonts[]                    = { "ShureTechMono Nerd Font:size=12", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
+static const char *fonts[]                    = { "ShureTechMono Nerd Font:size=14", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
 static const char normbordercolor[]           = "#181A18";
 static const char normbgcolor[]               = "#181A18";
 static const char normfgcolor[]               = "#F8F9F1";
@@ -36,9 +36,8 @@ static const char *const autostart[] = {
     "xset", "-dpms", NULL,
     "dbus-update-activation-environment", "--systemd", "--all", NULL,
     "/usr/bin/lxpolkit", NULL,
-    "set-xres", NULL,
     "dunst", NULL,
-    "picom", "-b", NULL,
+    "set-xres", NULL,
     "feh-bgp", NULL,
     "dwmblocks", NULL,
     NULL /* terminate */
@@ -46,6 +45,7 @@ static const char *const autostart[] = {
 
 /* tagging */
 static const char *tags[] = { "一", "二", "三", "四", "五" };
+
 static const char ptagf[] = "[%s %s]";  /* format of a tag label */
 static const char etagf[] = "[%s]";     /* format of an empty tag */
 static const int lcaselbl = 0;          /* 1 means make tag label lowercase */
@@ -54,11 +54,12 @@ static const Rule rules[] = {
     /* class                instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
     { "St",                 NULL,     NULL,           0,         0,          1,          0,         0 },
     { "kitty",              NULL,     NULL,           0,         0,          1,          0,         0 },
-    { "Alacritty",          NULL,     NULL,           0,         0,          1,          0,         0 },
-    { "critty-fl",          NULL,     NULL,           0,         1,          1,          0,         0 },
+    { "alacritty",          NULL,     NULL,           0,         0,          1,          0,         0 },
+    { "warp-terminal",      NULL,     NULL,           0,         0,          1,          0,         0 },
+    { "terminator",         NULL,     NULL,           0,         0,          1,          0,         0 },
     { "lutris",             NULL,     NULL,           0,         1,          0,          0,         0 },
     { "steam_app_default",  NULL,     NULL,           0,         1,          0,          0,         0 },
-    { "mpv",             NULL,     NULL,           0,         1,          0,          0,         0 },
+    { "thunar",             NULL,     NULL,           0,         1,          0,          0,         0 },
     { NULL,                 NULL,     "Event Tester", 0,         0,          0,          1,        -1 }, /* xev */
 };
 
