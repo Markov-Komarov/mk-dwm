@@ -1,13 +1,14 @@
 * {
-    background: #1e222a;
+    background: #181A18;
     foreground: #E5E9F0;
     border-color: @background;
     bg-selected: #282c34;
     grey: #565c64;
     spacing: 2;
-    width: 30em;
+    width: 24em;
     margin: 0;
     padding: 0;
+    font: "ShureTechMono Nerd Font 16";
 }
 
 #window {
@@ -65,7 +66,7 @@ element-icon {
    text-color: @foreground;
    placeholder: "Search";
    placeholder-color: @grey;
-   font: "Sora Regular 20";
+   font: "ShureTechMono Nerd Font 16";
 }
 
 #prompt {
@@ -73,6 +74,6 @@ element-icon {
    padding: 0 4px;
    margin: 0 5px 0 0;
    text-color: @foreground;
-   font: "Sora Regular 20";
+   font: "ShureTechMono Nerd Font 16";
 }
 
