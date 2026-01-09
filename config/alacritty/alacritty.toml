@@ -3,13 +3,13 @@
 title = "Maarkov"
 decorations = "none"
 blur = false
-opacity = 0.7
+opacity = 1
 padding.x = 0
 padding.y = 0
 
 [window.dimensions]
-columns = 160
-lines = 80
+columns = 128
+lines = 32
 
 [cursor.style]
 shape= "Beam"
@@ -19,21 +19,21 @@ blinking = "Never"
 #transparent_background_colors = true
 draw_bold_text_with_bright_colors = true
 
-[env]
-TERM = "xterm-256color"
+#[env]
+#TERM = "xterm-256color"
 
 [font]
 #glyph_offset = { x = 1, y = 0 }
-normal.family = "ShureTechMono Nerd Font"
+normal.family = "ShureTechMono Nerd Font Propo"
 normal.style = "Regular"
-size = 14.0
+size = 16.0
 
 [font.bold]
-family = "ShureTechMono Nerd Font"
+family = "ShureTechMono Nerd Font Propo"
 style = "Bold"
 
 [font.italic]
-family = "ShureTechMono Nerd Font"
+family = "ShureTechMono Nerd Font Propo"
 style = "Italic"
 
 [general]

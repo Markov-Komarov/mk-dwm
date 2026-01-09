@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ifip=$(ip addr show scope global | awk '$1 ~ /^inet/ { print $2 }')
+echo "[󰌷 $ifip]"

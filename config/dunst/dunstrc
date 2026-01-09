@@ -40,10 +40,10 @@
     height = (0,300)
 
     # Position the notification in the top right corner
-    origin = top-center
+    origin = top-right
 
     # Offset from the origin
-    offset = 0x20
+    offset = 0x28
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 1
@@ -322,14 +322,14 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#000000CC"
+    background = "#181A18"
     foreground = "#888888"
     timeout = 6
     # Icon for notifications with low urgency, uncomment to enable
     #default_icon = /path/to/icon
 
 [urgency_normal]
-    background = "#000000CC"
+    background = "#181A18"
     foreground = "#ffffff"
     timeout = 6
     # Icon for notifications with normal urgency, uncomment to enable

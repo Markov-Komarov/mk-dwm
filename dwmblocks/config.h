@@ -5,7 +5,7 @@
 #define DELIMITER ""
 
 // Maximum number of Unicode characters that a block can output.
-#define MAX_BLOCK_OUTPUT_LENGTH 45
+#define MAX_BLOCK_OUTPUT_LENGTH 64
 
 // Control whether blocks are clickable.
 #define CLICKABLE_BLOCKS 1
@@ -21,6 +21,5 @@
     X("", "sb-os", 0, 1)      \
     X("", "sb-ip", 0, 2)      \
     X("", "sb-volume", 0, 3)  \
-    X("", "sb-clock", 1, 4)   \
-    X("", "sb-bg", 0, 5)
+    X("", "sb-clock", 1, 4)
 #endif  // CONFIG_H

@@ -7,34 +7,7 @@
 </div>
 
 ---
-This is my **Personal Fork** with following patches:
-
-<details>
-  <summary>Click to see the list of patches</summary>
-
-  - alwayscenter
-  - alwaysfullscreen
-  - auto start
-  - cfacts
-  - chatterino bottom
-  - cool autostart
-  - fakefullscreen client (with resize fix for chrome-based browsers + noborder fix)
-  - multikeycode
-  - movestack
-  - noborder (floating + border flicker fix)
-  - pertag
-  - placemouse
-  - resizepoint
-  - statuscmd
-  - swallow
-  - systray
-  - true fullscreen
-  - hide vacant tags
-  - warp v2
-  - winicon
-
-  **Note**: Some patches are rewritten or modified to work together.
-</details>
+This is my **Personal Fork**
 
 ## 📋 Prerequisites
 This guide assumes your system has the latest updates before going ahead with the installation.
@@ -112,7 +85,7 @@ This guide assumes your system has the latest updates before going ahead with th
 Clone the repository, then compile and install.
 
 ```sh
-git clone https://github.com/Markov-Komarov/mk-dwm.git && \
+git clone https://codeberg.org/Maarkov_Komarov/mk-dwm.git && \
 cd mk-dwm && \
 make  && \
 sudo make install

@@ -4,21 +4,21 @@
 static const unsigned int refresh_rate        = 144;  /* matches dwm's mouse event processing to your monitor's refresh rate for smoother window interactions */
 static const unsigned int enable_noborder     = 1;   /* toggles noborder feature (0=disabled, 1=enabled) */
 static const unsigned int borderpx            = 1;   /* border pixel of windows */
-static const unsigned int snap                = 26;  /* snap pixel */
+static const unsigned int snap                = 10;  /* snap pixel */
 static const int swallowfloating              = 1;   /* 1 means swallow floating windows by default */
 static const unsigned int systraypinning      = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft       = 0;   /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing      = 5;   /* systray spacing */
+static const unsigned int systrayspacing      = 4;   /* systray spacing */
 static const int systraypinningfailfirst      = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor */
-static const int showsystray                  = 1;   /* 0 means no systray */
-static const int showbar                      = 1;   /* 0 means no bar */
+static const int showsystray                  = 1;   /* 0 means no systray - disable when using Polybar */
+static const int showbar                      = 1;   /* 1 means show bar - needed for Polybar space calculation */
 static const int topbar                       = 1;   /* 0 means bottom bar */
-#define ICONSIZE                              18     /* icon size */
+#define ICONSIZE                              20     /* icon size */
 #define ICONSPACING                           6      /* space between icon and title */
 #define SHOWWINICON                           1      /* 0 means no winicon */
-static const char *fonts[]                    = { "ShureTechMono Nerd Font:size=14", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
+static const char *fonts[]                    = { "ShureTechMono Nerd Font Propo:size=16:antialias=true:autohint=true:hintstyle=hintfull", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
 static const char normbordercolor[]           = "#181A18";
-static const char normbgcolor[]               = "#181A18";
+static const char normbgcolor[]               = "#181A18";  /* Lighter background for better icon contrast */
 static const char normfgcolor[]               = "#F8F9F1";
 static const char selbordercolor[]            = "#F8F9FA";
 static const char selbgcolor[]                = "#262626";
@@ -31,21 +31,20 @@ static const char *colors[][3] = {
 };
 
 static const char *const autostart[] = {
-    "xset", "s", "off", NULL,
-    "xset", "s", "noblank", NULL,
-    "xset", "-dpms", NULL,
     "dbus-update-activation-environment", "--systemd", "--all", NULL,
     "/usr/bin/lxpolkit", NULL,
-    "dunst", NULL,
     "set-xres", NULL,
-    "feh-bgp", NULL,
+    "dunst", NULL,
     "dwmblocks", NULL,
+    "feh-bgp", NULL,
+    "udiskie", NULL,
+    "dsbl-pwrsvng", NULL,
+    "xrdb", "-load", ".Xresources", NULL,
     NULL /* terminate */
 };
 
 /* tagging */
-static const char *tags[] = { "一", "二", "三", "四", "五" };
-
+static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" };
 static const char ptagf[] = "[%s %s]";  /* format of a tag label */
 static const char etagf[] = "[%s]";     /* format of an empty tag */
 static const int lcaselbl = 0;          /* 1 means make tag label lowercase */
@@ -55,11 +54,12 @@ static const Rule rules[] = {
     { "St",                 NULL,     NULL,           0,         0,          1,          0,         0 },
     { "kitty",              NULL,     NULL,           0,         0,          1,          0,         0 },
     { "alacritty",          NULL,     NULL,           0,         0,          1,          0,         0 },
+    { "critty-fl",          NULL,     NULL,           0,         1,          1,          0,         0 },
     { "warp-terminal",      NULL,     NULL,           0,         0,          1,          0,         0 },
     { "terminator",         NULL,     NULL,           0,         0,          1,          0,         0 },
     { "lutris",             NULL,     NULL,           0,         1,          0,          0,         0 },
     { "steam_app_default",  NULL,     NULL,           0,         1,          0,          0,         0 },
-    { "thunar",             NULL,     NULL,           0,         1,          0,          0,         0 },
+    { "pcmanfm",            NULL,     NULL,           0,         0,          0,          0,         0 },
     { NULL,                 NULL,     "Event Tester", 0,         0,          0,          1,        -1 }, /* xev */
 };
 
@@ -70,10 +70,10 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "",      tile },    /* first entry is default */
-	{ "",      NULL },    /* no layout function means floating behavior */
-	{ "",      monocle },
+    /* symbol     arrange function */
+    { "",      tile },    /* first entry is default */
+    { "",      NULL },    /* no layout function means floating behavior */
+    { "",      monocle },
 };
 
 /* key definitions */
@@ -95,15 +95,15 @@ static const char *termcmd[]     = { "alacritty", NULL };
 static Key keys[] = {
     /* modifier                     key                        function        argument */
     { MODKEY,                       XK_r,                      spawn,          {.v = launchercmd} },
-    { MODKEY|ShiftMask,             XK_r,                      spawn,          {.v = ftermcmd } },
+    { MODKEY|ControlMask,           XK_r,                      spawn,          SHCMD ("protonrestart")},
     { MODKEY,                       XK_x,                      spawn,          {.v = termcmd } },
+    { MODKEY|ShiftMask,             XK_x,                      spawn,          {.v = ftermcmd } },
     { MODKEY,                       XK_w,                      spawn,          SHCMD ("xdg-open https://")},
     { MODKEY,                       XK_p,                      spawn,          SHCMD ("full-shotgun")},
     { MODKEY|ShiftMask,             XK_p,                      spawn,          SHCMD ("sel-shotgun")},
     { MODKEY|ControlMask,           XK_p,                      spawn,          SHCMD ("sel-clip-shotgun")},
     { MODKEY,                       XK_e,                      spawn,          SHCMD ("xdg-open .")},
     { MODKEY,                       XK_b,                      spawn,          SHCMD ("feh-bgp")},
-    { MODKEY|ShiftMask,             XK_w,                      spawn,          SHCMD ("feh --randomize --bg-fill ~/Pictures/Wallpapers/*")},
     { 0,                            XF86XK_MonBrightnessUp,    spawn,          SHCMD ("xbacklight -inc 10")},
     { 0,                            XF86XK_MonBrightnessDown,  spawn,          SHCMD ("xbacklight -dec 10")},
     { 0,                            XF86XK_AudioLowerVolume,   spawn,          SHCMD ("sb-voldown")},
@@ -140,6 +140,10 @@ static Key keys[] = {
     TAGKEYS(                        XK_3,                      2)
     TAGKEYS(                        XK_4,                      3)
     TAGKEYS(                        XK_5,                      4)
+    TAGKEYS(                        XK_6,                      5)
+    TAGKEYS(                        XK_7,                      6)
+    TAGKEYS(                        XK_8,                      7)
+    TAGKEYS(                        XK_9,                      8)
     { MODKEY|ShiftMask,             XK_q,                      quit,           {0} },
     { MODKEY|ControlMask,           XK_q,                      spawn,          SHCMD("$HOME/.config/rofi/powermenu.sh")},
     { MODKEY|ControlMask|ShiftMask, XK_r,                      spawn,          SHCMD("systemctl reboot")},

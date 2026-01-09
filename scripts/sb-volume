@@ -1,0 +1,41 @@
+#!/bin/bash
+
+SINK='@DEFAULT_AUDIO_SINK@'
+
+case $BLOCK_BUTTON in
+	1)
+		alacritty --class=critty-fl \
+			-o window.dimensions.lines=20 \
+			-o window.dimensions.columns=80 \
+			-e ncpamixer
+		kill -37 $(pidof dwmblocks);;
+	2) wpctl set-mute "$SINK" toggle ;;
+	4) wpctl set-volume "$SINK" 2%+ ;;
+	5) wpctl set-volume "$SINK" 2%- ;;
+esac
+
+vol_info=$(wpctl get-volume "$SINK")
+
+# Handle mute state early
+case $vol_info in
+	*"MUTED"*)
+		echo "[󰝟 00%]"
+		exit
+		;;
+esac
+
+# Extract numeric volume and round (no external tools)
+vol=${vol_info#Volume: }
+vol=${vol/.}
+[ "${#vol}" -eq 3 ] && vol=${vol#0}
+
+# Select icon
+if [ "$vol" -ge 50 ]; then
+	icon="󰕾"
+elif [ "$vol" -ge 20 ]; then
+	icon="󰖀"
+else
+	icon="󰕿"
+fi
+
+echo "[$icon $vol%]"
